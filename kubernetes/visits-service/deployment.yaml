@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: visits-service
+  namespace: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: visits-service
+
+  template:
+    metadata:
+      labels:
+        app: visits-service
+
+    spec:
+      containers:
+      - name: visits-service
+        image: springcommunity/spring-petclinic-visits-service
+
+        ports:
+        - containerPort: 8082
+
+        env:
+        - name: CONFIG_SERVER_URL
+          value: http://config-server:8888
+
+        - name: EUREKA_SERVER_URL
+          value: http://discovery-server:8761/eureka
+
+        resources:
+          limits:
+            memory: "512Mi"
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 40
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 70
+          periodSeconds: 20

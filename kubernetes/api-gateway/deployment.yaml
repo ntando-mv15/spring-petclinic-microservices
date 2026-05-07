@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: springcommunity/spring-petclinic-api-gateway
+
+        ports:
+        - containerPort: 8080
+
+        env:
+        - name: CONFIG_SERVER_URL
+          value: http://config-server:8888
+
+        - name: EUREKA_SERVER_URL
+          value: http://discovery-server:8761/eureka
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 40
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 70

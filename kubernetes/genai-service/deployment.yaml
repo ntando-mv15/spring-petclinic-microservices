@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: genai-service
+  namespace: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: genai-service
+  template:
+    metadata:
+      labels:
+        app: genai-service
+    spec:
+      containers:
+      - name: genai-service
+        image: springcommunity/spring-petclinic-genai-service
+
+        ports:
+        - containerPort: 8084
+
+        envFrom:
+        - secretRef:
+            name: petclinic-secrets
+
+        env:
+        - name: CONFIG_SERVER_URL
+          value: http://config-server:8888
+
+        - name: EUREKA_SERVER_URL
+          value: http://discovery-server:8761/eureka
+
+        resources:
+          limits:
+            memory: "512Mi"

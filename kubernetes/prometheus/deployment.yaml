@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-server
+  namespace: petclinic
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: prometheus-server
+
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+
+    spec:
+      containers:
+      - name: prometheus-server
+        image: prom/prometheus:latest
+
+        ports:
+        - containerPort: 9090
+
+        args:
+        - "--config.file=/etc/prometheus/prometheus.yml"
+
+        resources:
+          limits:
+            memory: "256Mi"

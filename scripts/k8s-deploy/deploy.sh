@@ -2,24 +2,24 @@
 
 set -e
 
-kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/secrets.yaml
+kubectl apply -f kubernetes/namespace.yaml
+kubectl apply -f kubernetes/secrets.yaml
 
-kubectl apply -f k8s/config-server/
-kubectl apply -f k8s/discovery-server/
+kubectl apply -f kubernetes/config-server/
+kubectl apply -f kubernetes/discovery-server/
 
-kubectl apply -f k8s/customers-service/
-kubectl apply -f k8s/visits-service/
-kubectl apply -f k8s/vets-service/
-kubectl apply -f k8s/genai-service/
+kubectl apply -f kubernetes/customers-service/
+kubectl apply -f kubernetes/visits-service/
+kubectl apply -f kubernetes/vets-service/
+kubectl apply -f kubernetes/genai-service/
 
-kubectl apply -f k8s/api-gateway/
-kubectl apply -f k8s/admin-server/
+kubectl apply -f kubernetes/api-gateway/
+kubectl apply -f kubernetes/admin-server/
 
-kubectl apply -f k8s/tracing-server/
-kubectl apply -f k8s/grafana/
-kubectl apply -f k8s/prometheus/
+kubectl apply -f kubernetes/tracing-server/
+kubectl apply -f kubernetes/grafana/
+kubectl apply -f kubernetes/prometheus/
 
-kubectl apply -f k8s/ingress.yaml
+kubectl apply -f kubernetes/ingress.yaml
 
 echo "Deployment completed successfully."
